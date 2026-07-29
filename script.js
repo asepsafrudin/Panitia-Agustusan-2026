@@ -157,13 +157,26 @@ document.addEventListener('DOMContentLoaded', () => {
       .then(csvText => {
         // Parse CSV
         const rows = csvText.split('\n').map(row => {
-          const regex = /(?:"([^"]*(?:""[^"]*)*)"|([^,]+))/g;
-          let matches = [];
-          let match;
-          while (match = regex.exec(row)) {
-            matches.push(match[1] ? match[1].replace(/""/g, '"') : match[2]);
+          row = row.replace(/\r$/, '');
+          let result = [];
+          let current = '';
+          let inQuotes = false;
+          for (let i = 0; i < row.length; i++) {
+            let char = row[i];
+            if (char === '"' && row[i+1] === '"') {
+              current += '"';
+              i++;
+            } else if (char === '"') {
+              inQuotes = !inQuotes;
+            } else if (char === ',' && !inQuotes) {
+              result.push(current);
+              current = '';
+            } else {
+              current += char;
+            }
           }
-          return matches;
+          result.push(current);
+          return result;
         }).filter(row => row && row.length >= 1 && row[0]);
 
         // Cari baris header yang mengandung 'Nama'
@@ -183,39 +196,56 @@ document.addEventListener('DOMContentLoaded', () => {
         const dataRows = rows.slice(headerIndex + 1);
         let totalTerkumpul = 0;
         let totalLunas = 0;
-        const totalWarga = dataRows.length;
+        let totalWarga = 0;
         let html = '';
+        
+        let wargaList = [];
 
         dataRows.forEach(row => {
-          const nama = row[0] ? row[0].trim() : 'Tanpa Nama';
-          const lunasRaw = row[1] ? row[1].trim() : '';
-          const belumLunasRaw = row[2] ? row[2].trim() : '';
-
-          let amountStr = lunasRaw.replace(/[^0-9]/g, '');
-          let amount = parseInt(amountStr, 10);
-          
-          let isLunas = false;
-          if (!isNaN(amount) && amount > 0) {
-            isLunas = true;
-            totalTerkumpul += amount;
+          // Data Lunas (Kolom 0 dan Kolom 1)
+          if (row[0] && row[0].trim() !== '') {
+            const namaLunas = row[0].trim();
+            const lunasRaw = row[1] ? row[1].trim() : '';
+            let amountStr = lunasRaw.replace(/[^0-9]/g, '');
+            let amount = parseInt(amountStr, 10);
+            
+            if (!isNaN(amount) && amount > 0) {
+              totalTerkumpul += amount;
+            }
+            
+            wargaList.push({
+              nama: namaLunas,
+              isLunas: true,
+              detail: lunasRaw || 'Lunas'
+            });
             totalLunas++;
-          } else if (lunasRaw.toLowerCase().includes('lunas')) {
-             isLunas = true;
-             totalLunas++;
+            totalWarga++;
           }
-
-          const statusClass = isLunas ? 'status-lunas' : 'status-belum';
-          const statusText = isLunas ? 'Lunas' : 'Belum Lunas';
-          const detailAmount = isLunas ? lunasRaw : belumLunasRaw;
+          
+          // Data Belum Lunas (Kolom 2)
+          if (row[2] && row[2].trim() !== '') {
+            const namaBelumLunas = row[2].trim();
+            wargaList.push({
+              nama: namaBelumLunas,
+              isLunas: false,
+              detail: 'Belum Lunas' // atau bisa dikosongkan/ditulis lain jika ada kolom keterangan
+            });
+            totalWarga++;
+          }
+        });
+        
+        wargaList.forEach(warga => {
+          const statusClass = warga.isLunas ? 'status-lunas' : 'status-belum';
+          const statusText = warga.isLunas ? 'Lunas' : 'Belum Lunas';
 
           html += `
             <div class="progress-card">
               <div class="pc-header">
-                <div class="pc-nama">${nama}</div>
+                <div class="pc-nama">${warga.nama}</div>
                 <div class="pc-status ${statusClass}">${statusText}</div>
               </div>
               <div class="pc-body">
-                <div class="pc-detail">${detailAmount || '-'}</div>
+                <div class="pc-detail">${warga.detail}</div>
               </div>
             </div>
           `;
