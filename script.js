@@ -146,4 +146,106 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  /* 7. Live Progress Data */
+  const progressContainer = document.getElementById('progress-container');
+  const progressSummary = document.getElementById('progress-summary');
+  const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSVQVLRFv4nq5W8X43-VMg-R3gnQdZ3POonXTqRQvk58n60YZVBkduXbXwgBUxxbZn-hae4wqKso88a/pub?gid=982283584&single=true&output=csv";
+
+  if (progressContainer) {
+    fetch(csvUrl)
+      .then(response => response.text())
+      .then(csvText => {
+        // Parse CSV
+        const rows = csvText.split('\n').map(row => {
+          const regex = /(?:"([^"]*(?:""[^"]*)*)"|([^,]+))/g;
+          let matches = [];
+          let match;
+          while (match = regex.exec(row)) {
+            matches.push(match[1] ? match[1].replace(/""/g, '"') : match[2]);
+          }
+          return matches;
+        }).filter(row => row && row.length >= 1 && row[0]);
+
+        // Cari baris header yang mengandung 'Nama'
+        let headerIndex = -1;
+        for (let i = 0; i < rows.length; i++) {
+          if (rows[i][0] && rows[i][0].trim().toLowerCase() === 'nama') {
+            headerIndex = i;
+            break;
+          }
+        }
+
+        if (headerIndex === -1 || headerIndex === rows.length - 1) {
+          progressContainer.innerHTML = '<p style="text-align:center; color:var(--abu);">Belum ada data.</p>';
+          return;
+        }
+
+        const dataRows = rows.slice(headerIndex + 1);
+        let totalTerkumpul = 0;
+        let totalLunas = 0;
+        const totalWarga = dataRows.length;
+        let html = '';
+
+        dataRows.forEach(row => {
+          const nama = row[0] ? row[0].trim() : 'Tanpa Nama';
+          const lunasRaw = row[1] ? row[1].trim() : '';
+          const belumLunasRaw = row[2] ? row[2].trim() : '';
+
+          let amountStr = lunasRaw.replace(/[^0-9]/g, '');
+          let amount = parseInt(amountStr, 10);
+          
+          let isLunas = false;
+          if (!isNaN(amount) && amount > 0) {
+            isLunas = true;
+            totalTerkumpul += amount;
+            totalLunas++;
+          } else if (lunasRaw.toLowerCase().includes('lunas')) {
+             isLunas = true;
+             totalLunas++;
+          }
+
+          const statusClass = isLunas ? 'status-lunas' : 'status-belum';
+          const statusText = isLunas ? 'Lunas' : 'Belum Lunas';
+          const detailAmount = isLunas ? lunasRaw : belumLunasRaw;
+
+          html += `
+            <div class="progress-card">
+              <div class="pc-header">
+                <div class="pc-nama">${nama}</div>
+                <div class="pc-status ${statusClass}">${statusText}</div>
+              </div>
+              <div class="pc-body">
+                <div class="pc-detail">${detailAmount || '-'}</div>
+              </div>
+            </div>
+          `;
+        });
+
+        const percentage = totalWarga > 0 ? Math.round((totalLunas / totalWarga) * 100) : 0;
+        let summaryHtml = `
+          <div class="summary-stats">
+            <div class="stat-box">
+              <div class="stat-value">${totalLunas} / ${totalWarga}</div>
+              <div class="stat-label">Warga Lunas</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-value">Rp ${totalTerkumpul.toLocaleString('id-ID')}</div>
+              <div class="stat-label">Total Terkumpul</div>
+            </div>
+          </div>
+          <div class="progress-bar-container">
+            <div class="progress-bar-fill" style="width: ${percentage}%"></div>
+          </div>
+          <div class="progress-bar-text">${percentage}% Selesai</div>
+        `;
+        
+        progressSummary.innerHTML = summaryHtml;
+        progressContainer.innerHTML = html;
+      })
+      .catch(err => {
+        console.error("Error fetching data: ", err);
+        progressContainer.innerHTML = '<p style="text-align:center; color:red; grid-column:1/-1;">Gagal memuat data live.</p>';
+      });
+  }
+
 });
