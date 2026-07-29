@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Susunan Acara 17 Agustus 2026 - Griya Hasanah Sukaasih</title>
+<style>
+  :root{
+    --merah:#D91E28;
+    --merah-tua:#9E1420;
+    --putih:#FFFFFF;
+    --krem:#FFF8F2;
+    --abu:#4a4a4a;
+    --abu-muda:#e9e9e9;
+    --emas:#E8B84B;
+    --radius:14px;
+    --shadow:0 4px 14px rgba(0,0,0,.08);
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--krem);
+    color:#222;
+    line-height:1.5;
+  }
+  header.hero{
+    background:linear-gradient(135deg,var(--merah) 0%,var(--merah-tua) 100%);
+    color:var(--putih);
+    padding:48px 20px 56px;
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+  }
+  header.hero::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+      radial-gradient(circle at 15% 20%, rgba(255,255,255,.08) 0, transparent 40%),
+      radial-gradient(circle at 85% 80%, rgba(255,255,255,.08) 0, transparent 40%);
+  }
+  header.hero .flag-strip{
+    width:60px;height:6px;background:var(--emas);
+    margin:0 auto 18px;border-radius:4px;
+  }
+  header.hero h1{
+    margin:0 0 6px;
+    font-size:clamp(24px,5vw,38px);
+    letter-spacing:.5px;
+    font-weight:800;
+  }
+  header.hero p.subtitle{
+    margin:0;
+    font-size:clamp(14px,2.5vw,17px);
+    opacity:.95;
+    font-weight:500;
+  }
+  header.hero p.tanggal{
+    margin-top:14px;
+    display:inline-block;
+    background:rgba(255,255,255,.15);
+    border:1px solid rgba(255,255,255,.4);
+    padding:6px 18px;
+    border-radius:999px;
+    font-size:14px;
+    font-weight:600;
+  }
+
+  main{
+    max-width:880px;
+    margin:-32px auto 40px;
+    padding:0 16px;
+  }
+
+  section.card{
+    background:var(--putih);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    padding:26px 22px;
+    margin-bottom:22px;
+    border-top:5px solid var(--merah);
+  }
+  section.card h2{
+    margin:0 0 16px;
+    color:var(--merah-tua);
+    font-size:clamp(18px,3vw,22px);
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  section.card h2 .icon{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:34px;height:34px;
+    background:var(--merah);
+    color:var(--putih);
+    border-radius:50%;
+    font-size:16px;
+    flex:none;
+  }
+
+  /* Panitia */
+  .panitia-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:12px;
+  }
+  .panitia-item{
+    background:var(--krem);
+    border-radius:10px;
+    padding:12px 14px;
+    border-left:4px solid var(--emas);
+  }
+  .panitia-item .peran{
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:.5px;
+    color:var(--merah-tua);
+    font-weight:700;
+    margin-bottom:2px;
+  }
+  .panitia-item .nama{
+    font-size:14.5px;
+    font-weight:600;
+    color:#222;
+  }
+  .anggota-list{
+    margin-top:14px;
+    padding-top:14px;
+    border-top:1px dashed var(--abu-muda);
+  }
+  .anggota-list .peran{
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:.5px;
+    color:var(--merah-tua);
+    font-weight:700;
+    margin-bottom:8px;
+  }
+  .chip-wrap{display:flex;flex-wrap:wrap;gap:8px;}
+  .chip{
+    background:var(--abu-muda);
+    padding:6px 12px;
+    border-radius:999px;
+    font-size:13.5px;
+    font-weight:500;
+  }
+
+  /* Pembukaan list */
+  ul.simple-list{margin:0;padding-left:0;list-style:none;}
+  ul.simple-list li{
+    padding:10px 0 10px 30px;
+    position:relative;
+    border-bottom:1px solid var(--abu-muda);
+    font-size:14.5px;
+  }
+  ul.simple-list li:last-child{border-bottom:none;}
+  ul.simple-list li::before{
+    content:"✓";
+    position:absolute;
+    left:0;top:9px;
+    color:var(--merah);
+    font-weight:800;
+  }
+
+  /* Jadwal kategori */
+  .kategori-block{
+    margin-bottom:20px;
+  }
+  .kategori-block:last-child{margin-bottom:0;}
+  .kategori-title{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    background:var(--merah);
+    color:var(--putih);
+    padding:10px 16px;
+    border-radius:10px 10px 0 0;
+    font-weight:700;
+    font-size:15px;
+  }
+  .kategori-title .waktu-tag{
+    background:rgba(255,255,255,.2);
+    padding:3px 10px;
+    border-radius:999px;
+    font-size:12px;
+    font-weight:600;
+  }
+  .lomba-table{
+    width:100%;
+    border-collapse:collapse;
+    background:var(--krem);
+    border-radius:0 0 10px 10px;
+    overflow:hidden;
+  }
+  .lomba-table td{
+    padding:10px 16px;
+    font-size:14px;
+    border-bottom:1px solid var(--abu-muda);
+  }
+  .lomba-table tr:last-child td{border-bottom:none;}
+  .lomba-table td.jam{
+    white-space:nowrap;
+    font-weight:700;
+    color:var(--merah-tua);
+    width:130px;
+  }
+
+  .isoma-banner{
+    background:linear-gradient(135deg,var(--emas),#f3ce7c);
+    color:#5a3b00;
+    text-align:center;
+    padding:14px 16px;
+    border-radius:10px;
+    font-weight:700;
+    font-size:14.5px;
+    margin:20px 0;
+  }
+
+  /* Malam puncak */
+  .malam-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:14px;
+  }
+  .malam-item{
+    background:var(--krem);
+    border-radius:10px;
+    padding:16px;
+    text-align:center;
+    border:1px solid var(--abu-muda);
+  }
+  .malam-item .emoji{font-size:26px;display:block;margin-bottom:8px;}
+  .malam-item .judul{font-weight:700;font-size:14px;color:var(--merah-tua);margin-bottom:4px;}
+  .malam-item .ket{font-size:12.5px;color:var(--abu);}
+
+  /* RAB */
+  table.rab-table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:14px;
+  }
+  table.rab-table th{
+    background:var(--merah-tua);
+    color:var(--putih);
+    text-align:left;
+    padding:10px 12px;
+  }
+  table.rab-table th:last-child, table.rab-table td:last-child{text-align:right;}
+  table.rab-table td{
+    padding:10px 12px;
+    border-bottom:1px solid var(--abu-muda);
+  }
+  table.rab-table tr.total td{
+    font-weight:700;
+    background:var(--krem);
+  }
+  table.rab-table tr.sisa td{
+    font-weight:800;
+    color:var(--merah-tua);
+    background:#fff2ea;
+  }
+  .catatan{
+    margin-top:16px;
+    background:var(--krem);
+    border-left:4px solid var(--merah);
+    padding:12px 16px;
+    font-size:13.5px;
+    border-radius:0 8px 8px 0;
+    color:var(--abu);
+  }
+
+  footer{
+    text-align:center;
+    padding:24px 16px 40px;
+    font-size:13px;
+    color:#8a8a8a;
+  }
+
+  /* Pembayaran */
+  section.card.bayar{
+    border-top:5px solid #118EEA;
+  }
+  section.card.bayar h2{color:#0B6FBF;}
+  section.card.bayar h2 .icon{background:#118EEA;}
+  .bayar-wrap{
+    display:flex;
+    flex-wrap:wrap;
+    gap:24px;
+    align-items:flex-start;
+    justify-content:center;
+  }
+  .qr-box{
+    flex:0 0 auto;
+    text-align:center;
+    background:var(--krem);
+    border:1px solid var(--abu-muda);
+    border-radius:12px;
+    padding:16px;
+    max-width:260px;
+  }
+  .qr-box img{
+    width:100%;
+    max-width:220px;
+    border-radius:8px;
+    display:block;
+    margin:0 auto;
+  }
+  .qr-box .qr-caption{
+    margin-top:10px;
+    font-size:12.5px;
+    color:var(--abu);
+  }
+  .tf-box{
+    flex:1 1 260px;
+    background:linear-gradient(135deg,#118EEA,#0B6FBF);
+    color:var(--putih);
+    border-radius:12px;
+    padding:20px;
+    min-width:220px;
+  }
+  .tf-box .label{
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:.5px;
+    opacity:.85;
+    margin-bottom:6px;
+    font-weight:700;
+  }
+  .tf-box .nomor{
+    font-size:22px;
+    font-weight:800;
+    letter-spacing:.5px;
+    margin-bottom:4px;
+  }
+  .tf-box .nama{
+    font-size:15px;
+    font-weight:600;
+    opacity:.95;
+    margin-bottom:14px;
+  }
+  .tf-box .catatan-tf{
+    font-size:12.5px;
+    background:rgba(255,255,255,.15);
+    padding:10px 12px;
+    border-radius:8px;
+    line-height:1.5;
+  }
+
+  @media (max-width:520px){
+    header.hero{padding:38px 16px 48px;}
+    main{margin-top:-26px;}
+    section.card{padding:20px 16px;}
+    .lomba-table td{padding:9px 12px;font-size:13px;}
+    .kategori-title{padding:9px 12px;font-size:14px;flex-wrap:wrap;gap:6px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="flag-strip"></div>
+  <h1>Susunan Acara 17 Agustus</h1>
+  <p class="subtitle">Perumahan Griya Hasanah Sukaasih</p>
+  <p class="tanggal">16 – 17 Agustus 2026</p>
+</header>
+
+<main>
+
+  <!-- PANITIA -->
+  <section class="card">
+    <h2><span class="icon">👥</span>Susunan Panitia</h2>
+    <div class="panitia-grid">
+      <div class="panitia-item">
+        <div class="peran">Ketua Panitia</div>
+        <div class="nama">Bpk Ujang</div>
+      </div>
+      <div class="panitia-item">
+        <div class="peran">Bendahara / PIC Keuangan</div>
+        <div class="nama">Mama Erkan &amp; Kahila</div>
+      </div>
+    </div>
+    <div class="anggota-list">
+      <div class="peran">Anggota</div>
+      <div class="chip-wrap">
+        <span class="chip">Tante Amel</span>
+        <span class="chip">Mama Rifda</span>
+        <span class="chip">Mama Nay</span>
+        <span class="chip">Mama Fayra</span>
+        <span class="chip">Mama Rey Justin</span>
+        <span class="chip">Jeko</span>
+        <span class="chip">Bian</span>
+        <span class="chip">Alvaro</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- PEMBUKAAN -->
+  <section class="card">
+    <h2><span class="icon">🎉</span>Pembukaan Pagi</h2>
+    <ul class="simple-list">
+      <li>Foto Bersama</li>
+      <li>Menyanyikan Lagu Indonesia Raya</li>
+      <li>Penyalaan Party Popper</li>
+    </ul>
+  </section>
+
+  <!-- JADWAL PERLOMBAAN -->
+  <section class="card">
+    <h2><span class="icon">🏁</span>Jadwal Perlombaan</h2>
+
+    <div class="kategori-block">
+      <div class="kategori-title">Usia 2–3 Tahun <span class="waktu-tag">Pagi</span></div>
+      <table class="lomba-table">
+        <tr><td class="jam">07.30 – 07.45</td><td>Memindahkan Bendera</td></tr>
+        <tr><td class="jam">07.45 – 08.00</td><td>Memindahkan Bola Tempel ke Ember</td></tr>
+        <tr><td class="jam">08.00 – 08.15</td><td>Makan Biskuit</td></tr>
+      </table>
+    </div>
+
+    <div class="kategori-block">
+      <div class="kategori-title">Usia 4, 5, 6 Tahun <span class="waktu-tag">Pagi</span></div>
+      <table class="lomba-table">
+        <tr><td class="jam">08.20 – 08.35</td><td>Estafet Kardus</td></tr>
+        <tr><td class="jam">08.35 – 08.50</td><td>Tiup Bola di atas Gelas Isi Air</td></tr>
+        <tr><td class="jam">08.50 – 09.05</td><td>Memindahkan Gelas pakai Sumpit</td></tr>
+        <tr><td class="jam">09.05 – 09.20</td><td>Memindahkan Air pakai Spons</td></tr>
+      </table>
+    </div>
+
+    <div class="kategori-block">
+      <div class="kategori-title">Usia 7, 8, 9 Tahun <span class="waktu-tag">Pagi</span></div>
+      <table class="lomba-table">
+        <tr><td class="jam">09.25 – 09.40</td><td>Balap Kelereng</td></tr>
+        <tr><td class="jam">09.40 – 09.55</td><td>Makan Kerupuk</td></tr>
+        <tr><td class="jam">09.55 – 10.10</td><td>Pancing Paku</td></tr>
+        <tr><td class="jam">10.10 – 10.25</td><td>Dorong Baskom</td></tr>
+      </table>
+    </div>
+
+    <div class="kategori-block">
+      <div class="kategori-title">Usia 10, 11, 12 Tahun <span class="waktu-tag">Pagi</span></div>
+      <table class="lomba-table">
+        <tr><td class="jam">10.30 – 10.45</td><td>Memindahkan Pilus pakai Sumpit</td></tr>
+        <tr><td class="jam">10.45 – 11.00</td><td>Menusuk Balon pakai Kawat</td></tr>
+        <tr><td class="jam">11.00 – 11.15</td><td>Memindahkan Air di Kepala</td></tr>
+      </table>
+    </div>
+
+    <div class="isoma-banner">🕌 ISOMA 11.15 – 13.30 — Istirahat, Sholat, Makan (Peserta kembali jam 13.30 WIB)</div>
+
+    <div class="kategori-block">
+      <div class="kategori-title">Remaja <span class="waktu-tag">Siang</span></div>
+      <table class="lomba-table">
+        <tr><td class="jam">13.35 – 13.50</td><td>Memecahkan Balon Isi Air</td></tr>
+        <tr><td class="jam">13.50 – 14.05</td><td>Lomba Menggiring Ikan Kertas ke Nampan</td></tr>
+      </table>
+    </div>
+
+    <div class="kategori-block">
+      <div class="kategori-title">Ibu-Ibu <span class="waktu-tag">Siang</span></div>
+      <table class="lomba-table">
+        <tr><td class="jam">14.10 – 14.25</td><td>Estafet Gelas pakai Balon</td></tr>
+        <tr><td class="jam">14.25 – 14.40</td><td>Memindahkan Belut</td></tr>
+        <tr><td class="jam">14.40 – 14.55</td><td>Estafet Air pakai Plastik</td></tr>
+      </table>
+    </div>
+
+    <div class="kategori-block">
+      <div class="kategori-title">Gabungan / Bapak-Bapak <span class="waktu-tag">Sore</span></div>
+      <table class="lomba-table">
+        <tr><td class="jam">15.00 – Selesai</td><td>Tarik Tambang</td></tr>
+        <tr><td class="jam">Habis Ashar (Cadangan)</td><td>Memecahkan Balon di Kaki</td></tr>
+        <tr><td class="jam">Habis Ashar (Cadangan)</td><td>Pakai Sarung sambil Lempar Balon</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- MALAM PUNCAK -->
+  <section class="card">
+    <h2><span class="icon">🌙</span>Acara Malam Puncak</h2>
+    <div class="malam-grid">
+      <div class="malam-item">
+        <span class="emoji">🍿</span>
+        <div class="judul">Konsumsi</div>
+        <div class="ket">Snack anak &amp; orang tua, air mineral</div>
+      </div>
+      <div class="malam-item">
+        <span class="emoji">🏆</span>
+        <div class="judul">Pembagian Hadiah</div>
+        <div class="ket">Juara 1, 2, dan 3 tiap lomba</div>
+      </div>
+      <div class="malam-item">
+        <span class="emoji">🎁</span>
+        <div class="judul">Pembagian Souvenir</div>
+        <div class="ket">1 souvenir per KK untuk semua warga</div>
+      </div>
+      <div class="malam-item">
+        <span class="emoji">💝</span>
+        <div class="judul">Cendera Mata</div>
+        <div class="ket">Khusus warga/peserta yang belum dapat hadiah</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RAB -->
+  <section class="card">
+    <h2><span class="icon">💰</span>Rencana Anggaran Biaya (RAB)</h2>
+    <table class="rab-table">
+      <thead>
+        <tr><th>Keterangan</th><th>Jumlah (Rp)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Alat Perlombaan</td><td>122.000</td></tr>
+        <tr><td>Konsumsi Malam Puncak (termasuk Sound System &amp; Air)</td><td>2.190.000</td></tr>
+        <tr><td>Budget Hadiah (Anak, Ibu, Bapak)</td><td>945.000</td></tr>
+        <tr class="total"><td>Total Pengeluaran Sementara</td><td>3.257.000</td></tr>
+        <tr><td>Estimasi Pemasukan (Iuran Warga: Rp 65.000 × 58 KK)</td><td>3.770.000</td></tr>
+        <tr class="sisa"><td>Sisa Anggaran Sementara</td><td>513.000</td></tr>
+      </tbody>
+    </table>
+    <div class="catatan">
+      <strong>Catatan Penting:</strong> Pembayaran iuran ini tidak membedakan warga tertentu, sehingga kewajiban ini ditanggung bersama sebagai bentuk gotong royong. Jika terdapat pengeluaran di luar budget, akan di-backup dari uang kas perumahan. Sisa anggaran dialokasikan untuk Dana Darurat / Photo Booth / Souvenir.
+    </div>
+  </section>
+
+  <!-- PEMBAYARAN -->
+  <section class="card bayar">
+    <h2><span class="icon">💳</span>Info Pembayaran</h2>
+    <div class="bayar-wrap">
+      <div class="qr-box">
+        <img src="qr_dana.jpg" alt="QR Code DANA">
+        <div class="qr-caption">Silakan tunjukkan dan pindai QR code di atas untuk mulai bertransaksi.</div>
+      </div>
+      <div class="tf-box">
+        <div class="label">Transfer via DANA</div>
+        <div class="nomor">0877 3507 2392</div>
+        <div class="nama">a.n. Fatimah Sari Yanti</div>
+        <div class="catatan-tf">💡 Bisa transfer langsung ke nomor DANA di atas, atau scan QR code di samping untuk mempercepat proses pembayaran iuran acara 17 Agustus.</div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  Dirgahayu Republik Indonesia 🇮🇩 — Perumahan Griya Hasanah Sukaasih
+</footer>
+
+</body>
+</html>
