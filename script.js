@@ -155,6 +155,9 @@ document.addEventListener('DOMContentLoaded', () => {
     fetch(csvUrl)
       .then(response => response.text())
       .then(csvText => {
+        // Remove BOM if present
+        csvText = csvText.replace(/^\uFEFF/, '');
+        
         // Parse CSV
         const rows = csvText.split('\n').map(row => {
           row = row.replace(/\r$/, '');
